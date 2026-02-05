@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Allerta+Stencil&family=Inconsolata:wght@200..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Video background */
+.bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* Dark overlay for contrast */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: -1;
+}
+
+/* Glass card */
+.glass-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 90%;
+    max-width: 420px;
+    margin-top: 2.5rem;
+    padding-bottom: 1.5rem;
+
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(13px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+
+    text-align: center;
+
+}
+
+/* Container to position image */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    margin-top: -70px; /* makes it float above card */
+    margin-bottom: 20px;
+}
+
+/* Gradient Ring */
+.gradient-ring {
+    padding: 5px; /* thickness of ring */
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        #00f5ff,
+        #7b2cff,
+        #ff2fd1,
+        #00f5ff
+    );
+    background-size: 300% 300%;
+
+    /* Animation */
+    animation: gradientRotate 6s ease infinite;
+
+    /* Glow */
+    box-shadow:
+        0 0 20px rgba(123,44,255,0.6),
+        0 0 40px rgba(0,245,255,0.4);
+}
+
+/* Profile Image */
+.gradient-ring img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    display: block;
+    object-fit: cover;
+    border: 4px solid rgba(255,255,255,0.9);
+}
+
+/* Smooth floating animation */
+.profile-container {
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Moving gradient */
+@keyframes gradientRotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+/* Text */
+.glass-card h1 {
+    font-family: "Inconsolata", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.glass-card p {
+    font-family: "Source Code Pro", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem;
+    opacity: 0.9;
+    margin: 1.5rem;
+}
+.glass-card p::selection {
+    background: rgba(0, 255, 213, 0.35);
+    color: #ffffff;
+}
+
+/* Firefox support */
+.glass-card p::-moz-selection {
+    background: rgba(0, 255, 213, 0.35);
+    color: #ffffff;
+}
+
+
+/* Social links */
+/* .socials {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.socials a {
+  text-decoration: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.socials a:hover {
+  background: rgba(255, 255, 255, 0.2);
+} */
+
+/* From Uiverse.io by PriyanshuGupta28 */ 
+.social ul {
+  list-style: none;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.social-links .icon-content {
+  margin: 0 10px;
+  position: relative;
+}
+.social-links .icon-content .tooltip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 5px;
+  opacity: 0;
+  visibility: hidden;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+.social-links .icon-content:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  top: -45px;
+}
+.social-links .icon-content a {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #4d4d4d;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+.social-links .icon-content a:hover {
+  box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
+}
+.social-links .icon-content a svg {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+}
+.social-links .icon-content a:hover {
+  color: white;
+}
+.social-links .icon-content a .filled {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #000;
+  transition: all 0.3s ease-in-out;
+}
+.social-links .icon-content a:hover .filled {
+  height: 100%;
+}
+
+.social-links .icon-content a[data-social="instagram"] .filled,
+.social-links .icon-content a[data-social="instagram"] ~ .tooltip {
+  background: linear-gradient(
+    45deg,
+    #405de6,
+    #5b51db,
+    #833AB4,
+    #c13584,
+    #e1306c,
+    #fd1d1d
+  );
+}
+
+.social-links .icon-content a[data-social="Youtube"] .filled,
+.social-links .icon-content a[data-social="Youtube"] ~ .tooltip {
+  background-color: #ff0000;
+}
+
+.social-links .icon-content a[data-social="linkedin"] .filled,
+.social-links .icon-content a[data-social="linkedin"] ~ .tooltip {
+  background-color: #0274b3;
+}
+
+.social-links .icon-content a[data-social="github"] .filled,
+.social-links .icon-content a[data-social="github"] ~ .tooltip {
+  background-color: #24262a;
+}
+
+.social-links .icon-content a[data-social="Reddit"] .filled,
+.social-links .icon-content a[data-social="Reddit"] ~ .tooltip {
+  background-color: rgba(233, 57, 26);
+}
+
+
+/* Buy Me A Coffee */
+
+.bmc {
+    padding-top: 1.5rem;
+}
+
+.bmc img {
+    height: 64px;
+    padding-top: 1.5rem;
+    transition: transform .5s;
+}
+
+.bmc img:hover {
+    transform: scale(1.2);
+}
