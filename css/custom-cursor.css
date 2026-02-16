@@ -1,0 +1,35 @@
+/* Hide default cursor */
+body {
+  cursor: none;
+}
+
+/* Small center dot */
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: #00f5ff;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+/* Outer ring */
+.cursor-outline {
+  width: 35px;
+  height: 35px;
+  border: 2px solid rgba(0, 245, 255, 0.6);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+/* Hover state */
+.cursor-hover {
+  transform: translate(-50%, -50%) scale(1.8) !important;
+  border-color: magenta;
+}

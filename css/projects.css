@@ -1,0 +1,114 @@
+.projects h1 {
+    padding-bottom: .5rem;
+}
+
+.projects a {
+    font-family: "Source Code Pro", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem;
+    /* fixed typo: was 1.rem */
+    opacity: 0.9;
+    margin-block-end: .7rem;
+    text-decoration: none;
+    color: whitesmoke;
+    display: inline-block;
+    transition: transform 0.4s ease, color 0.4s ease;
+}
+
+.projects a:hover {
+    transform: scale(1.2);
+    color: #00f5ff;
+}
+
+
+.projects a::-webkit-scrollbar {
+    width: 6px;
+}
+
+.projects a::-webkit-scrollbar-thumb {
+    background: #00f5ff;
+    border-radius: 10px;
+}
+
+
+.projects a::selection {
+    background: rgba(0, 255, 213, 0.35);
+    color: #ffffff;
+}
+
+/* Firefox support */
+.projects a::-moz-selection {
+    background: rgba(0, 255, 213, 0.35);
+    color: #ffffff;
+}
+
+/* Popup overlay */
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(3px);
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* Popup content */
+.popup-content {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    margin: 10% auto;
+    text-align: center;
+    position: relative;
+}
+
+/* Close button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ff5555;
+}
+
+.popup h2 {
+    margin-bottom: 1rem;
+}
+
+.popup p {
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0.9;
+    font-family: "Source Code Pro", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    opacity: 0.9;
+    margin: 1.5rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
