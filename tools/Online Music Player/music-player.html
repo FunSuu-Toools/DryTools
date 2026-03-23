@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Music Player</title>
+    <link rel="stylesheet" href="player.css">
+    <link rel="stylesheet" href="css\custom-cursor.css">
+    <link rel="stylesheet" href="css\progress-bar.css">
+    <link rel="stylesheet" href="/components/navbar/nav-bar.css">
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <header id="navbar">
+
+        <script>
+            fetch("/components/navbar/nav-bar.html")
+                .then(res => res.text())
+                .then(data => {
+                    document.getElementById("navbar").innerHTML = data;
+
+                    const script = document.createElement("script");
+                    script.src = "/components/navbar/nav-bar.js";
+                    script.onload = () => initNavbarButtons();
+                    document.body.appendChild(script);
+                });
+
+
+        </script>
+    </header>
+
+    <div id="progress-bar"></div>
+
+    <video id="bg-video" class="bg-video" autoplay muted loop playsinline>
+        <source id="video-source" src="/assets/videos/background-vid.mp4" type="video/mp4">
+    </video>
+
+    <div class="cards-container">
+        <div class="glass-card">
+            <div class="player">
+                <h2>🎵 Music Player</h2>
+
+                <audio id="audio"></audio>
+
+                <div class="now-playing" id="nowPlaying">No song selected</div>
+
+                <div class="progress-area">
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    <div class="time">
+                        <span id="currentTime">0:00</span>
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+
+                <div class="controls-wrap">
+                    <div class="controls-row main-controls">
+                        <button onclick="prevSong()"><svg width="32px" height="32px" viewBox="0 -2 12 12" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                fill="#F5F5F5">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <title>previous [#999]</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <defs> </defs>
+                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g id="Dribbble-Light-Preview" transform="translate(-104.000000, -3805.000000)"
+                                            fill="#F5F5F5">
+                                            <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                <path
+                                                    d="M59.9990013,3645.86816 L59.9990013,3652.13116 C59.9990013,3652.84516 58.8540013,3653.25316 58.2180013,3652.82516 L53.9990013,3650.14016 L53.9990013,3652.13116 C53.9990013,3652.84516 53.4260013,3653.25316 52.7900013,3652.82516 L48.4790013,3649.69316 C47.9650013,3649.34616 47.7980013,3648.65316 48.3120013,3648.30616 L52.7900013,3645.17516 C53.4260013,3644.74616 53.9990013,3645.15416 53.9990013,3645.86816 L53.9990013,3647.85916 L58.2180013,3645.17516 C58.8540013,3644.74616 59.9990013,3645.15416 59.9990013,3645.86816"
+                                                    id="previous-[#999]"> </path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg></button>
+
+
+                        <button onclick="skipBackward()"><svg width="32px" height="32px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M9.54004 15.92V10.5801L8.04004 12.2501" stroke="#F5F5F5" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M10.02 4.46997L12 2" stroke="#F5F5F5" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path
+                                        d="M4.91 7.79999C3.8 9.27999 3.10999 11.11 3.10999 13.11C3.10999 18.02 7.09 22 12 22C16.91 22 20.89 18.02 20.89 13.11C20.89 8.19999 16.91 4.21997 12 4.21997C11.32 4.21997 10.66 4.31002 10.02 4.46002"
+                                        stroke="#F5F5F5" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                    <path
+                                        d="M14 10.5801C15.1 10.5801 16 11.4801 16 12.5801V13.9301C16 15.0301 15.1 15.9301 14 15.9301C12.9 15.9301 12 15.0301 12 13.9301V12.5801C12 11.4701 12.9 10.5801 14 10.5801Z"
+                                        stroke="#F5F5F5" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg></button>
+
+
+                        <button class="play-btn" id="playPauseBtn" onclick="playPause()"><svg width="32px" height="32px"
+                                viewBox="0 0 7.00 7.00" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#F5F5F5">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke="#CCCCCC" stroke-width="0.014000000000000002"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <title>play [#1003]</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <defs> </defs>
+                                    <g id="Page-1" stroke-width="0.00007" fill="none" fill-rule="evenodd">
+                                        <g id="Dribbble-Light-Preview" transform="translate(-347.000000, -3766.000000)"
+                                            fill="#F5F5F5">
+                                            <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                <path
+                                                    d="M296.494737,3608.57322 L292.500752,3606.14219 C291.83208,3605.73542 291,3606.25002 291,3607.06891 L291,3611.93095 C291,3612.7509 291.83208,3613.26444 292.500752,3612.85767 L296.494737,3610.42771 C297.168421,3610.01774 297.168421,3608.98319 296.494737,3608.57322"
+                                                    id="play-[#1003]"> </path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg></button>
+
+
+                        <button onclick="skipForward()"><svg width="32px" height="32px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M13.98 4.46997L12 2" stroke="#F5F5F5" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path
+                                        d="M19.0899 7.79999C20.1999 9.27999 20.8899 11.11 20.8899 13.11C20.8899 18.02 16.9099 22 11.9999 22C7.08988 22 3.10986 18.02 3.10986 13.11C3.10986 8.19999 7.08988 4.21997 11.9999 4.21997C12.6799 4.21997 13.3399 4.31002 13.9799 4.46002"
+                                        stroke="#F5F5F5" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                    <path d="M9.54004 15.92V10.5801L8.04004 12.2501" stroke="#F5F5F5" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path
+                                        d="M14 10.5801C15.1 10.5801 16 11.4801 16 12.5801V13.9301C16 15.0301 15.1 15.9301 14 15.9301C12.9 15.9301 12 15.0301 12 13.9301V12.5801C12 11.4701 12.9 10.5801 14 10.5801Z"
+                                        stroke="#F5F5F5" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg></button>
+
+
+                        <button onclick="nextSong()"><svg width="32px" height="32px" viewBox="0 -2 12 12" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                fill="#F5F5F5" stroke="#F5F5F5">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <title>next [#998]</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <defs> </defs>
+                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g id="Dribbble-Light-Preview" transform="translate(-144.000000, -3805.000000)"
+                                            fill="#F5F5F5">
+                                            <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                <path
+                                                    d="M99.684,3649.69353 L95.207,3652.82453 C94.571,3653.25353 94,3652.84553 94,3652.13153 L94,3650.14053 L89.78,3652.82453 C89.145,3653.25353 88,3652.84553 88,3652.13153 L88,3645.86853 C88,3645.15453 89.145,3644.74653 89.78,3645.17453 L94,3647.85953 L94,3645.86853 C94,3645.15453 94.571,3644.74653 95.207,3645.17453 L99.516,3648.30653 C100.03,3648.65353 100.198,3649.34653 99.684,3649.69353"
+                                                    id="next-[#998]"> </path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg></button>
+                    </div>
+
+
+                    <div class="controls-row secondary-controls">
+                        <button id="shuffleBtn" onclick="toggleShuffle()"><svg width="32px" height="32px"
+                                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke="#F5F5F5" stroke-width="0.624"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M18 15L21 18M21 18L18 21M21 18H18.5689C17.6297 18 17.1601 18 16.7338 17.8705C16.3564 17.7559 16.0054 17.5681 15.7007 17.3176C15.3565 17.0348 15.096 16.644 14.575 15.8626L14.3333 15.5M18 3L21 6M21 6L18 9M21 6H18.5689C17.6297 6 17.1601 6 16.7338 6.12945C16.3564 6.24406 16.0054 6.43194 15.7007 6.68236C15.3565 6.96523 15.096 7.35597 14.575 8.13744L9.42496 15.8626C8.90398 16.644 8.64349 17.0348 8.29933 17.3176C7.99464 17.5681 7.64357 17.7559 7.2662 17.8705C6.83994 18 6.37033 18 5.43112 18H3M3 6H5.43112C6.37033 6 6.83994 6 7.2662 6.12945C7.64357 6.24406 7.99464 6.43194 8.29933 6.68236C8.64349 6.96523 8.90398 7.35597 9.42496 8.13744L9.66667 8.5"
+                                        stroke="#F5F5F5" stroke-width="2.4" stroke-linecap="round"
+                                        stroke-linejoin="round"></path>
+                                </g>
+                            </svg></button>
+
+
+                        <button id="repeatBtn" onclick="toggleRepeat()"><svg width="32px" height="32px"
+                                viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#F5F5F5">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <title>Repeat-Play</title>
+                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g id="Repeat-Play">
+                                            <rect id="Rectangle" fill-rule="nonzero" x="0" y="0" width="24" height="24">
+                                            </rect>
+                                            <path
+                                                d="M5,18.0002 L17,18.0002 C18.6569,18.0002 20,16.657 20,15.0002 L20,14"
+                                                id="Path" stroke="#F5F5F5" stroke-width="2" stroke-linecap="round">
+                                            </path>
+                                            <path
+                                                d="M16,2 L19.2929,5.29289 C19.6834,5.68342 19.6834,6.31658 19.2929,6.70711 L16,10"
+                                                id="Path" stroke="#F5F5F5" stroke-width="2" stroke-linecap="round">
+                                            </path>
+                                            <path
+                                                d="M8,14 L4.70711,17.2929 C4.31658,17.6834 4.31658,18.3166 4.70711,18.7071 L8,22"
+                                                id="Path" stroke="#F5F5F5" stroke-width="2" stroke-linecap="round">
+                                            </path>
+                                            <path d="M19,6 L7,6 C5.34315,6 4,7.34315 4,9 L4,10" id="Path"
+                                                stroke="#F5F5F5" stroke-width="2" stroke-linecap="round"> </path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg></button>
+                    </div>
+                </div>
+
+                <div class="file-box">
+                    <label for="fileInput" class="custom-file-upload">Choose Songs</label>
+                    <span id="fileCount">No files selected</span>
+                    <input type="file" id="fileInput" multiple accept="audio/*">
+                </div>
+
+                <div class="playlist" id="playlist"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+
+    <script src="player.js"></script>
+    <script src="js\cursor.js"></script>
+    <script src="js\progress-bar.js"></script>
+</body>
+
+</html>
